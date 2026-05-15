@@ -1,0 +1,148 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+class Expense
+{
+public:
+    string title;
+    float amount;
+
+    Expense(string t, float a)
+    {
+        title = t;
+        amount = a;
+    }
+};
+
+class ExpenseManager
+{
+private:
+    vector<Expense> expenses;
+
+public:
+    void addExpense()
+    {
+        string title;
+        float amount;
+
+        cin.ignore();
+
+        cout << "\nEnter Expense Title : ";
+        getline(cin, title);
+
+        cout << "Enter Expense Amount : ";
+        cin >> amount;
+
+        expenses.push_back(Expense(title, amount));
+
+        cout << "\nExpense Added Successfully!\n";
+    }
+
+    void viewExpenses()
+    {
+        if (expenses.empty())
+        {
+            cout << "\nNo Expenses Found!\n";
+            return;
+        }
+
+        cout << "\n========== Expense List ==========\n";
+
+        cout << left << setw(5) << "No."
+             << setw(25) << "Title"
+             << setw(10) << "Amount" << endl;
+
+        for (int i = 0; i < expenses.size(); i++)
+        {
+            cout << left << setw(5) << i + 1
+                 << setw(25) << expenses[i].title
+                 << setw(10) << expenses[i].amount << endl;
+        }
+    }
+
+    void totalExpense()
+    {
+        float total = 0;
+
+        for (int i = 0; i < expenses.size(); i++)
+        {
+            total += expenses[i].amount;
+        }
+
+        cout << "\nTotal Expense = " << total << endl;
+    }
+};
+
+int main()
+{
+    string username, password;
+
+    string correctUsername = "admin";
+    string correctPassword = "1234";
+
+    ExpenseManager manager;
+
+    cout << "=====================================\n";
+    cout << "     EXPENSE MANAGEMENT SYSTEM\n";
+    cout << "=====================================\n";
+
+    cout << "\n----------- LOGIN -----------\n";
+
+    cout << "Enter Username : ";
+    cin >> username;
+
+    cout << "Enter Password : ";
+    cin >> password;
+
+    if (username != correctUsername || password != correctPassword)
+    {
+        cout << "\nInvalid Username or Password!\n";
+        return 0;
+    }
+
+    cout << "\nLogin Successful!\n";
+
+    int choice;
+
+    do
+    {
+        cout << "\n=====================================\n";
+        cout << "1. Add Expense\n";
+        cout << "2. View Expenses\n";
+        cout << "3. Total Expense\n";
+        cout << "4. Exit\n";
+        cout << "=====================================\n";
+
+        cout << "Enter Your Choice : ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            manager.addExpense();
+            break;
+
+        case 2:
+            manager.viewExpenses();
+            break;
+
+        case 3:
+            manager.totalExpense();
+            break;
+
+        case 4:
+            cout << "\nExiting Program...\n";
+            break;
+
+        default:
+            cout << "\nInvalid Choice!\n";
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
